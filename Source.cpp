@@ -122,10 +122,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 				for (int i = 0; i < MAX_NUM; ++i) {
 					const int x = i * rect.right / MAX_NUM;
-					g.DrawLine(&Pen(Color(248 + 3, 183 + 3, 84 + 3), 10.0f), Point(x, rect.bottom), Point(x, rect.bottom - averageBubleSort1[i] * rect.bottom / dmax));
-					g.DrawLine(&Pen(Color(248 - 3, 183 - 3, 84 - 3), 10.0f), Point(x, rect.bottom), Point(x, rect.bottom - averageBubleSort2[i] * rect.bottom / dmax));
-					g.DrawLine(&Pen(Color(155 + 3, 216 + 3, 236 + 3), 10.0f), Point(x, rect.bottom), Point(x, rect.bottom - averageQuickSort1[i] * rect.bottom / dmax));
-					g.DrawLine(&Pen(Color(155 - 3, 216 - 3, 236 - 3), 10.0f), Point(x, rect.bottom), Point(x, rect.bottom - averageQuickSort2[i] * rect.bottom / dmax));
+					g.DrawLine(&Pen(Color(248 + 3, 183 + 3, 84 + 3), 10.0f), Point(x, rect.bottom), Point(x, (INT)(rect.bottom - averageBubleSort1[i] * rect.bottom / dmax)));
+					g.DrawLine(&Pen(Color(248 - 3, 183 - 3, 84 - 3), 10.0f), Point(x, rect.bottom), Point(x, (INT)(rect.bottom - averageBubleSort2[i] * rect.bottom / dmax)));
+					g.DrawLine(&Pen(Color(155 + 3, 216 + 3, 236 + 3), 10.0f), Point(x, rect.bottom), Point(x, (INT)(rect.bottom - averageQuickSort1[i] * rect.bottom / dmax)));
+					g.DrawLine(&Pen(Color(155 - 3, 216 - 3, 236 - 3), 10.0f), Point(x, rect.bottom), Point(x, (INT)(rect.bottom - averageQuickSort2[i] * rect.bottom / dmax)));
 				}
 				g.FillRectangle(&SolidBrush(Color(248, 183, 84)), 100.0f, 100.0f, 64.0f, 64.0f);
 				g.DrawString(TEXT("バブルソート"), -1, &Font(L"Times New Roman", 48), PointF(100.0f + 64.0f, 100.0f), &SolidBrush(Color::Black));
