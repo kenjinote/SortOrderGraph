@@ -6,8 +6,8 @@
 #include <array>
 #include <random>
 
-#define MAX_NUM 100
-#define TEST_COUNT 100
+#define MAX_NUM 200
+#define TEST_COUNT 200
 
 using namespace Gdiplus;
 
@@ -39,7 +39,6 @@ void QuickSort(int start, int end, int *data, int* pScanningCount, int* pExchang
 	if (start >= end) {
 		return;
 	}
-	// 先頭の値を「適当な値」とする
 	div = data[start];
 	for (lower = start, upper = end; lower < upper;) {
 		while (lower <= upper && data[lower] <= div) {
@@ -57,7 +56,6 @@ void QuickSort(int start, int end, int *data, int* pScanningCount, int* pExchang
 			++*pExchangeCount;
 		}
 	}
-	//最初に選択した値を中央に移動する
 	temp = data[start];
 	data[start] = data[upper];
 	data[upper] = temp;
@@ -104,7 +102,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	switch (msg)
 	{
 	case WM_CREATE:
-		hButton = CreateWindow(TEXT("BUTTON"), TEXT("変換"), WS_VISIBLE | WS_CHILD, 0, 0, 0, 0, hWnd, (HMENU)IDOK, ((LPCREATESTRUCT)lParam)->hInstance, 0);
+		hButton = CreateWindow(TEXT("BUTTON"), TEXT("計測"), WS_VISIBLE | WS_CHILD, 0, 0, 0, 0, hWnd, (HMENU)IDOK, ((LPCREATESTRUCT)lParam)->hInstance, 0);
 		break;
 	case WM_SIZE:
 		MoveWindow(hButton, 10, 10, 256, 32, TRUE);
@@ -118,18 +116,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				GetClientRect(hWnd, &rect);
 				Graphics g(hdc);
 				g.SetSmoothingMode(SmoothingModeAntiAlias);
-				g.Clear(Color(0, 0, 0));//g.Clear(0);でもよい
 				double dmax = 0.0;
 				for (int i = 0; i < MAX_NUM; ++i) {
 					dmax = max(averageBubleSort1[i], dmax);
 				}
 				for (int i = 0; i < MAX_NUM; ++i) {
 					const int x = i * rect.right / MAX_NUM;
-					g.DrawLine(&Pen(Color(64 - 4, 64 - 4, 64 - 4), 20.0f), Point(x, rect.bottom), Point(x, rect.bottom - averageBubleSort1[i] * rect.bottom / dmax));
-					g.DrawLine(&Pen(Color(64 + 4, 64 + 4, 64 + 4), 20.0f), Point(x, rect.bottom), Point(x, rect.bottom - averageBubleSort2[i] * rect.bottom / dmax));
-					g.DrawLine(&Pen(Color(128 - 4, 128 - 4, 128 - 4), 20.0f), Point(x, rect.bottom), Point(x, rect.bottom - averageQuickSort1[i] * rect.bottom / dmax));
-					g.DrawLine(&Pen(Color(128 + 4, 128 + 4, 128 + 4), 20.0f), Point(x, rect.bottom), Point(x, rect.bottom - averageQuickSort2[i] * rect.bottom / dmax));
+					g.DrawLine(&Pen(Color(248 + 3, 183 + 3, 84 + 3), 10.0f), Point(x, rect.bottom), Point(x, rect.bottom - averageBubleSort1[i] * rect.bottom / dmax));
+					g.DrawLine(&Pen(Color(248 - 3, 183 - 3, 84 - 3), 10.0f), Point(x, rect.bottom), Point(x, rect.bottom - averageBubleSort2[i] * rect.bottom / dmax));
+					g.DrawLine(&Pen(Color(155 + 3, 216 + 3, 236 + 3), 10.0f), Point(x, rect.bottom), Point(x, rect.bottom - averageQuickSort1[i] * rect.bottom / dmax));
+					g.DrawLine(&Pen(Color(155 - 3, 216 - 3, 236 - 3), 10.0f), Point(x, rect.bottom), Point(x, rect.bottom - averageQuickSort2[i] * rect.bottom / dmax));
 				}
+				g.FillRectangle(&SolidBrush(Color(248, 183, 84)), 100.0f, 100.0f, 64.0f, 64.0f);
+				g.DrawString(TEXT("バブルソート"), -1, &Font(L"Times New Roman", 48), PointF(100.0f + 64.0f, 100.0f), &SolidBrush(Color::Black));
+				g.FillRectangle(&SolidBrush(Color(155, 216, 236)), 100.0f, 100.0f + 64.0f + 64.0f, 64.0f, 64.0f);
+				g.DrawString(TEXT("クイックソート"), -1, &Font(L"Times New Roman", 48), PointF(100.0f + 64.0f, 100.0f + 64.0f + 64.0f), &SolidBrush(Color::Black));
 			}
 			EndPaint(hWnd, &ps);
 		}
